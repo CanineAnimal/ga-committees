@@ -26,15 +26,7 @@ def refound():
     cur.execute("SELECT serial FROM committees WHERE name LIKE ?", ("%"+name+"%",))
     s = cur.fetchone()[0]
     cur.execute("INSERT INTO refounds VALUES (?,?)", (s, res))
-    cur.execute("UPDATE committees SET repealed = FALSE WHERE serial = ?", (s,))
     cur.execute("UPDATE committees SET refounded = TRUE WHERE serial = ?", (s,))
-    con.commit()
-    print("Added")
-    return
-
-def repeal():
-    name = input("Committee name: ")
-    cur.execute("UPDATE committees SET repealed = TRUE WHERE name LIKE ?", ("%"+name+"%",))
     con.commit()
     print("Added")
     return
@@ -58,7 +50,6 @@ ops = """Supported operations:
          [a]dd committee
          add [r]eference to committee
          effect re[f]ounding of committee
-         [m]ove committee to repealed list
          [v]iew a table"""
 
 print(ops)
@@ -68,7 +59,6 @@ while True:
     if   op == "a": add()
     elif op == "r": refer()
     elif op == "f": refound()
-    elif op == "m": repeal()
     elif op == "v": view()
     else: print(ops)
     if input("More? Y/N: ").casefold() == "n": break
