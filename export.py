@@ -16,7 +16,7 @@ refoundfmt = ", refounded in [url={rfurl}]GA {rfres}: {rfresname}[/url]"
 con = sqlite3.connect("wacdb")
 cur = con.cursor()
 
-cur.execute("SELECT name, note, res, res_note, repealed, refounded, serial FROM committees ORDER BY res")
+cur.execute("SELECT committees.name, note, committees.res, res_note, resolutions.repealed, refounded, serial FROM committees, resolutions WHERE resolutions.res = committees.res ORDER BY committees.res")
 rows = cur.fetchall()
 
 for row in rows:
@@ -64,7 +64,7 @@ for row in rows:
         notecount += 1
 
     entry = rowfmt.format(cname=cname, cnote=cnote, url=url, res=res, resname=resname, refound=refoundlist, resnote=resnote, reflist=reflist)
-    if isrepealed:
+    if isrepealed and not isrefounded:
         repealed += entry
     else:
         active += entry
