@@ -12,7 +12,6 @@ The main table that contains each committee.
 |name|VARCHAR(500)|Name of committee|
 |note|VARCHAR(500)|Note to be included in the committee column of the generated output table|
 |res|INT|Resolution number in which it was founded originally|
-|repealed|BOOLEAN|Whether the committee is to be included in the "Repealed committees" section|
 |res_note|VARCHAR(500)|Note to be included in the resolution column of the generated output table|
 |refounded|BOOLEAN|Whether the committee was refounded|
 
@@ -38,8 +37,9 @@ Contains each GA resolution, its name and the URL of its post in the GA forum li
 |Column|Type|Remark|
 |---|---|---|
 |res|INT|Resolution number|
-|url|VARCHAR(500)|URL of its post in the GA forum list of resolutions|
+|url|VARCHAR(500)|Link to the gameside resolution page (e.g., https://www.nationstates.net/page=WA_past_resolution/id=532/council=1)|
 |resname|VARCHAR(500)|Resolution name|
+|repealed|BOOLEAN|Whether the resolution has been repealed|
 
 
 ## The scripts
@@ -53,7 +53,6 @@ This script is used for making entries in the database. It runs interactively an
 * adding a committee
 * adding a reference to a committee
 * refounding a repealed committee
-* repealing a committee
 * viewing the database's tables.
 
 These are the usual operations necessary when updating the list for new resolutions. Anything else can be done directly on the database using SQL commands. 
@@ -65,13 +64,13 @@ This script generates the BBcode tables from the database automatically. It need
 * `footer.txt` contains the footnotes.
 
 ### `posts.py`
-This script, a substantially modified form of https://github.com/ifly6/RexisQuexis/blob/master/python_scripts/make_postlist.py , generates the `resolutions` table in the database by scraping the NS forums.
+This script uses the NS API to build the "resolutions" table. It checks the existing entries in the table and queries the API for the resolutions not already included. It automatically marks resolutions as repealed if the repealing resolution is found. (Note: the name of the script is historical, since in its initial version it scraped the List of Passed Resolutions on the NS forum.)
 
 
 ## Workflow for updating the committee list
 1. Run `posts.py`.
 2. Start `import.py`.
-3. Go through the Passed Resolutions thread, looking for any new committees/refoundings/repeals/references to be added. Add each one following the on-screen instructions of `import.py`.
+3. Go through the resolutions passed since last update, looking for any new committees/refoundings/references to be added. Add each one following the on-screen instructions of `import.py`.
 4. Run `export.py`.
 5. Replace the table in the "active resolutions" post with the content of `active.txt`, and that in the "repealed resolutions" post with `repealed.txt`.
 6. Add the contents of `footer.txt` in an appropriate place.
