@@ -59,7 +59,7 @@ for row in rows:
 
         lastrefound = refoundrows[-1][0]
         isrepealed = findrepealed(lastrefound) # When a committee has been refounded, check the status of the last refound, not original res
-        print(lastrefound, isrepealed)
+
     if cnotetext:
         cnote = notecount
         footer += f"[*]{cnotetext}\n"
