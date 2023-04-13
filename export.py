@@ -4,6 +4,10 @@ def findres(res): # returns name and URL
     x = cur.execute("SELECT resname, url FROM resolutions WHERE res = ?", (res,)).fetchone()
     return x[0], x[1]
 
+def findrepealed(res): # returns whether the resolution is repealed
+    x = cur.execute("SELECT repealed FROM resolutions WHERE res = ?", (res,)).fetchone()
+    return x[0]
+
 header = "[tr][td][sup][/sup][b]Committee[/b][/td][td][sup][/sup][b]Creating resolution[/b][/td][td][sup][/sup][b]Referring resolutions[/b][/td][/tr]"
 active = "[table]" + header
 repealed = "[table]" + header
@@ -48,11 +52,14 @@ for row in rows:
         refoundrows = cur.fetchall()
         if len(refoundrows) > 1:
             print(f"More than one refound for committee {serial} ({refoundrows})!")
-        for ref in refoundrows:
-            refname, refurl = findres(ref[0])
-            refentry = refoundfmt.format(rfurl=refurl, rfres=ref[0], rfresname=refname)
+        for refounding in refoundrows:
+            refname, refurl = findres(refounding[0])
+            refentry = refoundfmt.format(rfurl=refurl, rfres=refounding[0], rfresname=refname)
             refoundlist += refentry
 
+        lastrefound = refoundrows[-1][0]
+        isrepealed = findrepealed(lastrefound) # When a committee has been refounded, check the status of the last refound, not original res
+        print(lastrefound, isrepealed)
     if cnotetext:
         cnote = notecount
         footer += f"[*]{cnotetext}\n"
@@ -64,7 +71,7 @@ for row in rows:
         notecount += 1
 
     entry = rowfmt.format(cname=cname, cnote=cnote, url=url, res=res, resname=resname, refound=refoundlist, resnote=resnote, reflist=reflist)
-    if isrepealed and not isrefounded:
+    if isrepealed:
         repealed += entry
     else:
         active += entry
