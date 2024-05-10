@@ -16,7 +16,7 @@ def blocker():
     topic = input("Topic: ")
     text = input("Blocker text: ")
     f = open('blockers.csv', 'a')
-    f.write('\n' + resolution + ',,' + section + ',' + topic + ',' + text)
+    f.write('\n' + resolution + ',' + section + ',' + topic + ',' + text)
     f.close()
     
 def refer():
