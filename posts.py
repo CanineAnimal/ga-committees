@@ -44,6 +44,17 @@ for res in fetchres:
         repealed = False
     else:
         repealed = True
+        f = open('blockers.csv', 'r')
+        blockers = f.read().split('\n');
+        new_csv = '';
+        f.close();
+        for blocker in blockers:
+            if blocker.split(',')[0] != resnum:
+                new_csv += blocker + '\n'
+        
+        f = open('blockers.csv', 'w')
+        f.write(new_csv)
+        f.close()
 
     cur.execute("INSERT INTO resolutions (res, resname, url, repealed) VALUES (?, ?, ?, ?)", (resnum, resname, resurl, repealed))
     con.commit()
