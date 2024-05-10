@@ -10,6 +10,15 @@ def add():
     print("Added")
     return
 
+def blocker():
+    resolution = input("Resolution number: ")
+    section = input("Blocker Section: ")
+    topic = input("Topic: ")
+    text = input("Blocker text: ")
+    f = open('blockers.csv', 'a')
+    f.write('\n' + resolution + ',' + section + ',' + topic + ',' + text)
+    f.close()
+    
 def refer():
     name = input("Committee name: ")
     ref = input("Referring resolution: ")
@@ -60,6 +69,7 @@ while True:
     elif op == "r": refer()
     elif op == "f": refound()
     elif op == "v": view()
+    elif op == "b": blocker()
     else: print(ops)
     if input("More? Y/N: ").casefold() == "n": break
 
