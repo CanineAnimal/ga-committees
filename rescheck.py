@@ -50,7 +50,7 @@ for res in fetchres:
         f.close();
         for blocker in blockers:
             if blocker.split(',')[0] != resnum:
-                new_csv += blocker + '\n'
+                new_csv += blocker.split(',')[0] + ',' + resname + '\n'
         
         f = open('blockers.csv', 'w')
         f.write(new_csv)
