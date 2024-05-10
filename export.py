@@ -80,6 +80,15 @@ active += "[/table]"
 repealed += "[/table]"
 footer += "[/list]"
 
+blockers = '[table][tr][td][b]Resolution[/b][/td][td][b]Scope[/b][/td][td][b]Exceptions[/b][/td][td][b]Blocker text[/b][/td][/tr]';
+g = open('blockers.csv', 'r')
+blockers2 = g.read().split('\n')
+g.close()
+for blocker in blockers2:
+    blockers += '[tr][td][url=https://www.nationstates.net/page=WA_past_resolution/id=' + blocker.split(',')[0] + '/council=1]GA #' + blocker.split(',')[0] + '[/url], §' + blocker.split(',')[1] + '[/td][td]' + blocker.split(',')[2] + '[/td][td]' + blocker.split(',')[3] + '[/td][td]' + blocker.split(',')[4] + '[/td][/tr]';
+blockers += '[/table]'
+
 with open("active.txt", "w") as f: f.write(active)
 with open("repealed.txt", "w") as f: f.write(repealed)
 with open("footer.txt", "w") as f: f.write(footer)
+with open("blockers.txt", "w") as f: f.write(blockers)
