@@ -1,5 +1,5 @@
 # committees
-Database and scripts for updating WA committees and blockers thread. '''The below is woefully out of date.'''
+Database and scripts for updating WA committees and blockers thread. **The below is woefully out of date.**
 
 ## The database
 The database (named `wacdb` for WA committee database) uses SQLite. It contains the following tables:
