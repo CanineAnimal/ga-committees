@@ -84,8 +84,15 @@ blockers = '[table][tr][td][b]Resolution[/b][/td][td][b]Scope[/b][/td][td][b]Exc
 g = open('blockers.csv', 'r')
 blockers2 = g.read().split('\n')
 g.close()
+
 for blocker in blockers2:
-    blockers += '[tr][td][url=https://www.nationstates.net/page=WA_past_resolution/id=' + blocker.split(',')[0] + '/council=1]GA #' + blocker.split(',')[0] + '[/url], §' + blocker.split(',')[1] + '[/td][td]' + blocker.split(',')[2] + '[/td][td]' + blocker.split(',')[3] + '[/td][td]' + blocker.split(',')[4] + '[/td][/tr]';
+    if blocker.split(',')[5] != '1':
+        blockers += '[tr][td][url=https://www.nationstates.net/page=WA_past_resolution/id=' + blocker.split(',')[0] + '/council=1]GA #' + blocker.split(',')[0] + '[/url], §' + blocker.split(',')[1] + '[/td][td]' + blocker.split(',')[2] + '[/td][td]' + blocker.split(',')[3] + '[/td][td]' + blocker.split(',')[4] + '[/td][/tr]';
+
+for blocker in blockers2:
+    if blocker.split(',')[5] == '1':
+        blockers += '[tr][td][strike][url=https://www.nationstates.net/page=WA_past_resolution/id=' + blocker.split(',')[0] + '/council=1]GA #' + blocker.split(',')[0] + '[/url], §' + blocker.split(',')[1] + '[/strike][/td][td][strike]' + blocker.split(',')[2] + '[/strike][/td][td][strike]' + blocker.split(',')[3] + '[/strike][/td][td][strike]' + blocker.split(',')[4] + '[/strike][/td][/tr]';
+
 blockers += '[/table]'
 
 with open("active.txt", "w") as f: f.write(active)
