@@ -49,8 +49,10 @@ for res in fetchres:
         new_csv = '';
         f.close();
         for blocker in blockers:
-            if blocker.split(',')[0] != resnum:
-                new_csv += blocker + '\n'
+            if blocker.split(',')[0] == resnum:
+                new_csv += blocker + '1\n'
+            else:
+                new_csv += blocker + '\n';
         
         f = open('blockers.csv', 'w')
         f.write(new_csv)
